@@ -94,7 +94,7 @@ export async function updateInvoice(
   prevState: State,
   formData: FormData,
 ) {
-    const validatedFields = UpdateInvoice.safeParse({
+  const validatedFields = UpdateInvoice.safeParse({
     customerId: formData.get('customerId'),
     amount: formData.get('amount'),
     status: formData.get('status'),
@@ -106,7 +106,6 @@ export async function updateInvoice(
       message: 'Missing Fields. Failed to Update Invoice.',
     };
   }
- 
   const { customerId, amount, status } = validatedFields.data;
   const amountInCents = amount * 100; // Converting to cents
 
