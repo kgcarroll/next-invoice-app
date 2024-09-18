@@ -8,7 +8,7 @@ import {
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { Button } from "@/app/ui/button";
-import { updateCustomer, State } from "@/app/lib/actions";
+import { updateCustomer, CustomerState } from "@/app/lib/actions";
 import { useActionState } from "react";
 
 export default function EditCustomerForm({
@@ -16,7 +16,7 @@ export default function EditCustomerForm({
 }: {
   customer: CustomerForm;
 }) {
-  const initialState: State = { message: null, errors: {} };
+  const initialState: CustomerState = { message: null, errors: {} };
   const updateCustomerWithId = updateCustomer.bind(null, customer.id);
   const [state, formAction] = useActionState(
     updateCustomerWithId,
@@ -47,9 +47,9 @@ export default function EditCustomerForm({
               />
               <UserCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
             </div>
-            <div id="amount-error" aria-live="polite" aria-atomic="true">
-              {state.errors?.amount &&
-                state.errors.amount.map((error: string) => (
+            <div id="name-error" aria-live="polite" aria-atomic="true">
+              {state.errors?.name &&
+                state.errors.name.map((error: string) => (
                   <p className="mt-2 text-sm text-red-500" key={error}>
                     {error}
                   </p>
@@ -78,14 +78,14 @@ export default function EditCustomerForm({
               />
               <UserCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
             </div>
-            <div id="amount-error" aria-live="polite" aria-atomic="true">
+            {/* <div id="amount-error" aria-live="polite" aria-atomic="true">
               {state.errors?.amount &&
                 state.errors.amount.map((error: string) => (
                   <p className="mt-2 text-sm text-red-500" key={error}>
                     {error}
                   </p>
                 ))}
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

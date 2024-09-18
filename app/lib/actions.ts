@@ -26,8 +26,12 @@ export async function authenticate(
   }
 }
 
+ 
+
 const FormSchema = z.object({
   id: z.string(),
+  name: z.string(),
+  email: z.string(),
   customerId: z.string({
     invalid_type_error: 'Please select a customer.',
   }),
@@ -36,7 +40,7 @@ const FormSchema = z.object({
     invalid_type_error: 'Please select an invoice status.',
   }),
   date: z.string(),
-});  
+}); 
 
 // Create Invoice
 export type State = {
@@ -47,7 +51,6 @@ export type State = {
   };
   message?: string | null;
 };
-
 const CreateInvoice = FormSchema.omit({ id: true, date: true });
 
 export async function createInvoice(prevState: State, formData: FormData) {
@@ -138,17 +141,19 @@ export async function deleteInvoice(id: string) {
 }
 
 
-const CustomerFormSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  email: z.string(),
-});  
+export type CustomerState = {
+  errors?: {
+    name?: string[];
+    email?: string[];
+  };
+  message?: string | null;
+};
 
 // Update Customer 
-const UpdateCustomer = CustomerFormSchema.omit({ id: true });
+const UpdateCustomer = FormSchema.omit({ id: true, date: true, customerId: true, status: true, amount: true });
 export async function updateCustomer(
   id: string,
-  prevState: State,
+  prevState: CustomerState,
   formData: FormData,
 ) {
   const validatedFields = UpdateCustomer.safeParse({
