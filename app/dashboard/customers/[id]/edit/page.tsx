@@ -1,9 +1,8 @@
 import Form from "@/app/ui/customers/edit-form";
 import Breadcrumbs from "@/app/ui/invoices/breadcrumbs";
 import {
-  fetchInvoiceById,
+  // fetchInvoiceById,
   fetchCustomerById,
-  fetchCustomers,
 } from "@/app/lib/data";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
@@ -16,11 +15,7 @@ export const metadata: Metadata = {
 export default async function Page({ params }: { params: { id: string } }) {
   const id = params.id;
 
-  const [customer, customers] = await Promise.all([
-    fetchCustomerById(id),
-    // fetchInvoiceById(id),
-    fetchCustomers(),
-  ]);
+  const customer = await fetchCustomerById(id);
 
   if (!customer) {
     notFound();
@@ -38,7 +33,7 @@ export default async function Page({ params }: { params: { id: string } }) {
           },
         ]}
       />
-      <Form customer={customer} customers={customers} />
+      <Form customer={customer} />
     </main>
   );
 }

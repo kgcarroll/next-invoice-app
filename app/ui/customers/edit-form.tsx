@@ -1,9 +1,9 @@
 "use client";
-import { CustomerField, CustomerForm } from "@/app/lib/definitions";
+import { CustomerForm } from "@/app/lib/definitions";
 import {
-  CheckIcon,
-  ClockIcon,
-  CurrencyDollarIcon,
+  // CheckIcon,
+  // ClockIcon,
+  // CurrencyDollarIcon,
   UserCircleIcon,
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
@@ -13,10 +13,8 @@ import { useActionState } from "react";
 
 export default function EditCustomerForm({
   customer,
-  customers,
 }: {
   customer: CustomerForm;
-  customers: CustomerField[];
 }) {
   const initialState: State = { message: null, errors: {} };
   const updateCustomerWithId = updateCustomer.bind(null, customer.id);
