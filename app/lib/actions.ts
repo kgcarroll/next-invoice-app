@@ -136,3 +136,45 @@ export async function deleteInvoice(id: string) {
     return { message: 'Database Error: Failed to Delete Invoice.' };
   }
 }
+
+
+const CustomerFormSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  email: z.string(),
+});  
+
+// Update Customer 
+const UpdateCustomer = CustomerFormSchema.omit({ id: true });
+export async function updateCustomer(
+  id: string,
+  prevState: State,
+  formData: FormData,
+) {
+  const validatedFields = UpdateCustomer.safeParse({
+    name: formData.get('customerId'),
+    email: formData.get('customerEmail'),
+  });
+ 
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: 'Missing Fields. Failed to Update Invoice.',
+    };
+  }
+  const { name, email } = validatedFields.data;
+
+  try {
+    // Send to database
+    await sql`
+      UPDATE customers
+      SET name = ${name}, email = ${email}
+      WHERE id = ${id}
+    `;
+  } catch (error){
+    return { message: 'Database Error: Failed to Update Customer.' };
+  };
+ 
+  revalidatePath('/dashboard/customers'); // Revalidate page data
+  redirect('/dashboard/customers'); // Redirect to invoices page
+}
