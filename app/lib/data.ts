@@ -3,7 +3,7 @@ import {
   CustomerField,
   CustomersTableType,
   InvoiceForm,
-  CustomerForm,
+  Customer,
   InvoicesTable,
   LatestInvoiceRaw,
   Revenue,
@@ -168,10 +168,12 @@ export async function fetchInvoiceById(id: string) {
 
 export async function fetchCustomerById(id: string) {
   try {
-    const data = await sql<CustomerForm>`
+    const data = await sql<Customer>`
       SELECT
         customers.id,
-        customers.name
+        customers.name,
+        customers.image_url,
+        customers.email
       FROM customers
       WHERE customers.id = ${id};
     `;

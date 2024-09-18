@@ -30,8 +30,13 @@ export async function authenticate(
 
 const FormSchema = z.object({
   id: z.string(),
-  name: z.string(),
-  email: z.string(),
+  name: z.string({
+    required_error: "Please provide a name.",
+    invalid_type_error: "Oops. Name must be a string.",
+  }),
+  email: z.string().email({
+    message: 'Please provide an email address.',
+  }),
   customerId: z.string({
     invalid_type_error: 'Please select a customer.',
   }),
@@ -164,7 +169,7 @@ export async function updateCustomer(
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
-      message: 'Missing Fields. Failed to Update Invoice.',
+      message: 'Missing Fields. Failed to Update Customer.',
     };
   }
   const { name, email } = validatedFields.data;
